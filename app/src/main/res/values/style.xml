@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.StartApp" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/iconsitow</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/iconsito</item>
         <item name="postSplashScreenTheme">@style/Theme.LockMeow</item>
     </style>
 </resources>
