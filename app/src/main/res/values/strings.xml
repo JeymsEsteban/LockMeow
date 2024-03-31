@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">LockMeow</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="pasword">Pasword</string>
+    <string name="loginBtn">Login</string>
+    <string name="register">Registro</string>
+    <string name="register_btm">Registrarse</string>
+    <string name="click_to_login">Click para registrarse</string>
+    <string name="click_to_register">Click para registrarse</string>
+    <string name="log_out">Log out</string>
+    <string name="logout">Log out</string>
 </resources>
