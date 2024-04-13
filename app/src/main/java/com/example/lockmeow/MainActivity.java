@@ -1,5 +1,6 @@
 package com.example.lockmeow;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     FirebaseUser user;
     Boolean isReady = false;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Jeyms: Instalar y mostrar el splash screen
@@ -40,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
         });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Jeyms: Inicializamos braviables necesarias para volver al login, verificar si ya existe el usuario
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
+        textView = findViewById(R.id.user_detail);
         user = auth.getCurrentUser();
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -52,24 +55,18 @@ public class MainActivity extends AppCompatActivity {
         else {
             textView.setText(user.getEmail());
         }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        button.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
     private void dissmisSplashScreen() {
         // Jeyms: Retrasar la actualizacion del estado isReady
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Jeyms: Establecer isReady en true despues de 1000 milisegundos (1 segundo)
-                isReady = true;
-            }
+        new Handler().postDelayed(() -> {
+            // Jeyms: Establecer isReady en true despues de 1000 milisegundos (1 segundo)
+            isReady = true;
         }, 1000);
     }
 }
