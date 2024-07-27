@@ -9,11 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class alarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Activity en toda la pantalla
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_alarm);
@@ -22,9 +25,16 @@ public class alarmActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //recyclerView
+        RecyclerView recyclerView = findViewById(R.id.recycleView);
+
+
     }
     public void volverBoton(View view) {
         Intent volver = new Intent(alarmActivity.this, MainActivity.class);
         startActivity(volver);
     }
+
+
 }
