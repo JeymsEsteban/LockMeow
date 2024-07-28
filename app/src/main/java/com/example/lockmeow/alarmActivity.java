@@ -3,6 +3,7 @@ package com.example.lockmeow;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -70,12 +71,16 @@ public class alarmActivity extends AppCompatActivity {
     private void getAppsInstaladas() {
         List<PackageInfo> packageInfos = getPackageManager().getInstalledPackages(0);
 
-        for (PackageInfo packageInfo : packageInfos) {
-            String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-            Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
-            String packName = packageInfo.packageName;
+        appModelList.clear();
 
-            appModelList.add(new appModel(name, icon, 0, packName));
+        for (PackageInfo packageInfo : packageInfos) {
+            if((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
+                String packName = packageInfo.packageName;
+
+                appModelList.add(new appModel(name, icon, 0, packName));
+            }
         }
     }
 

@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Home var
         btnAl = findViewById(R.id.alarmsButton);
-        btnRe = findViewById(R.id.reminderButton);
         btnCl = findViewById(R.id.calendarButton);
 
         if (user == null) {
@@ -88,11 +87,6 @@ public class MainActivity extends AppCompatActivity {
        btnAl.setOnClickListener(v -> {
             Intent alarma = new Intent(MainActivity.this, alarmActivity.class);
             startActivity(alarma);
-        });
-
-        btnRe.setOnClickListener(v -> {
-            Intent recordatorio = new Intent(MainActivity.this, RemainderActivity.class);
-            startActivity(recordatorio);
         });
 
         btnCl.setOnClickListener(v -> {
