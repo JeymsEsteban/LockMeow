@@ -12,7 +12,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
-        tools:layout_editor_absoluteX="32dp" />
+        tools:layout_editor_absoluteX="32dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/appName"
@@ -21,8 +22,10 @@
         android:text="TextView"
         android:textAlignment="textStart"
         android:textAllCaps="true"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="43dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/appStatus"
+        app:layout_constraintStart_toEndOf="@+id/appIcon"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/appStatus"
@@ -30,5 +33,6 @@
         android:layout_height="50dp"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:layout_editor_absoluteX="325dp"
-        tools:layout_editor_absoluteY="25dp" />
+        tools:layout_editor_absoluteY="25dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

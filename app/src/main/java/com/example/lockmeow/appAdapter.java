@@ -1,5 +1,6 @@
 package com.example.lockmeow;
 
+
 import android.content.Context;
 
 import android.view.LayoutInflater;
@@ -43,11 +44,11 @@ public class appAdapter extends RecyclerView.Adapter<appAdapter.adapter_design_j
         holder.appIcon.setImageDrawable(app.getappIcon());
 
         if (app.getappStatus() == 0){
-
+            holder.appStatus.setImageResource(R.drawable.unlock_icon);
         }
 
         else{
-
+            holder.appStatus.setImageResource(R.drawable.lock_icon);
         }
 
 
@@ -70,3 +71,5 @@ public class appAdapter extends RecyclerView.Adapter<appAdapter.adapter_design_j
         }
     }
 }
+
+

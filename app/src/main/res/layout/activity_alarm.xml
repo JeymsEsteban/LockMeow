@@ -19,10 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back"/>
 
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <view
         android:id="@+id/recycleView"
+        class="androidx.recyclerview.widget.RecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="557dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </view>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
