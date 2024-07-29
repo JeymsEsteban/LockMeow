@@ -8,6 +8,28 @@
     android:background="#1B0638"
     tools:context=".MainActivity">
 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavegationViews"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavegationViews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="#A267D6"
+        android:background="#0B0119"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottommenu"
+        app:labelVisibilityMode="unlabeled"/>
     <ImageView
         android:id="@+id/gatoHome"
         android:layout_width="500dp"
@@ -32,83 +54,17 @@
         app:layout_constraintVertical_bias="0.654"
         app:srcCompat="@drawable/gato_siames" />
 
-    <Button
-        android:id="@+id/alarmsButton"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="#4A289A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:strokeColor="@color/black" />
-
-    <Button
-        android:id="@+id/calendarButton"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="#4A289A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="@color/black" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="80dp"
-        android:layout_height="74dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="49dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_access_alarm_24" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="80dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginBottom="49dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/baseline_calendar_month_24" />
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="48dp"
-        android:onClick="confiBoton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setting_morado" />
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="118dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="68dp"
-        android:backgroundTint="#330060"
-        android:text="@string/logout"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.844"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/logout"
+        android:layout_above="@id/gatoAvatar"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:text=""
-        tools:layout_editor_absoluteX="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bottomNavegationViews"
         tools:layout_editor_absoluteY="704dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

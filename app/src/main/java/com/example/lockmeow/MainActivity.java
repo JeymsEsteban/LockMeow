@@ -4,24 +4,27 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
-    Button btnAl, btnRe, btnCl, button;
+
     TextView textView;
     FirebaseUser user;
     Boolean isReady = false;
@@ -52,13 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Login var
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
+
         textView = findViewById(R.id.user_detail);
         user = auth.getCurrentUser();
 
         //Home var
-        btnAl = findViewById(R.id.alarmsButton);
-        btnCl = findViewById(R.id.calendarButton);
+
 
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -75,24 +77,45 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //Inicializar variable para tomar referencia de la barra de navegacion
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavegationViews);
+        bottomNavigationView.setSelectedItemId(R.id.btn_home);
+        //metodo que permite captar cuando un item de la barra es tocado
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                //con ayuda del identificador se hace un if dependiendo de lo que toque el usuario cambia de pantalla
+                if (id == R.id.btn_home){
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                }
+                if (id == R.id.logoutbtn){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
+                if (id == R.id.SettingsBtn){
+                    startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                }
+                if (id == R.id.alarmsButtonBtn){
+                    startActivity(new Intent(getApplicationContext(), alarmActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                }
+                return false;
 
+            }
+        });
         //Funcionalidad de cada boton
-        button.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
 
-       btnAl.setOnClickListener(v -> {
-            Intent alarma = new Intent(MainActivity.this, alarmActivity.class);
-            startActivity(alarma);
-        });
 
-        btnCl.setOnClickListener(v -> {
-            Intent calendario = new Intent(MainActivity.this, CalendarActivity.class);
-            startActivity(calendario);
-        });
+
     }
     private void dissmisSplashScreen() {
         // Jeyms: Retrasar la actualizacion del estado isReady

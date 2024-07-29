@@ -1,7 +1,7 @@
 buildscript {
     dependencies {
         classpath(libs.google.services)
-        classpath("com.android.tools.build:gradle:4.0.1")
+        classpath("com.android.tools.build:gradle:8.5.1")
 
     }
 }

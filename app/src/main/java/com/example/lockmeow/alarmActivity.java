@@ -74,13 +74,11 @@ public class alarmActivity extends AppCompatActivity {
         appModelList.clear();
 
         for (PackageInfo packageInfo : packageInfos) {
-            if((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-                Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
-                String packName = packageInfo.packageName;
+            String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+            Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
+            String packName = packageInfo.packageName;
 
-                appModelList.add(new appModel(name, icon, 0, packName));
-            }
+            appModelList.add(new appModel(name, icon, 0, packName));
         }
     }
 
