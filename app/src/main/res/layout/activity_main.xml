@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,11 +10,12 @@
 
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="644dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavegationViews"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
     </FrameLayout>
@@ -29,42 +30,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottommenu"
-        app:labelVisibilityMode="unlabeled"/>
+        app:labelVisibilityMode="unlabeled"
+        android:layout_gravity="bottom"/>
     <ImageView
         android:id="@+id/gatoHome"
         android:layout_width="500dp"
         android:layout_height="435dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/gatohome_sin_gato" />
+        app:srcCompat="@drawable/gatohome_sin_gato"
+        android:layout_gravity="center"/>
 
     <ImageView
-        android:id="@+id/gatoAvatar"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.837"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.654"
-        app:srcCompat="@drawable/gato_siames" />
-
-
-    <TextView
-        android:id="@+id/user_detail"
-        android:layout_width="match_parent"
+        android:id="@+id/gatoA"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/gatoAvatar"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bottomNavegationViews"
-        tools:layout_editor_absoluteY="704dp" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/gatoHome"
+        app:srcCompat="@mipmap/gato_negro"
+        android:layout_gravity="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/gatoC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/gatoHome"
+        app:srcCompat="@mipmap/gato_mono"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/gatoB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavegationViews"
+        app:srcCompat="@mipmap/gato_gris"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/gatoD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavegationViews"
+        app:srcCompat="@mipmap/gato_europeo"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

@@ -2,13 +2,16 @@ package com.example.lockmeow;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,10 +28,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
-
-    TextView textView;
     FirebaseUser user;
     Boolean isReady = false;
+    ConfiFragment confiFragment = new ConfiFragment();
+    ImageView gatoA;
+    ImageView gatoB;
+    ImageView gatoC;
+    ImageView gatoD;
+
+    private SharedViewModel sharedViewModel;
+    private SharedPreferences sharedPreferences;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,25 +62,14 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         //Jeyms: Inicializamos braviables necesarias para volver al login, verificar si ya existe el usuario, Y LAS VARIABLES QUE SE USARAN PARA LOS BOTONES DEL HOME
-
         //Login var
         auth = FirebaseAuth.getInstance();
-
-        textView = findViewById(R.id.user_detail);
         user = auth.getCurrentUser();
-
-        //Home var
-
-
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         }
-        else {
-            textView.setText(user.getEmail());
-        }
-
         //metodo para ajustar a la pantalla la actividad principal
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -99,23 +98,81 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 if (id == R.id.SettingsBtn){
-                    startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main, confiFragment).commit();
                 }
                 if (id == R.id.alarmsButtonBtn){
                     startActivity(new Intent(getApplicationContext(), alarmActivity.class));
                     overridePendingTransition(0, 0);
+
                     return true;
                 }
                 return false;
 
             }
         });
-        //Funcionalidad de cada boton
+        // Configurar el ViewModel
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        gatoA = findViewById(R.id.gatoA);
+        gatoB = findViewById(R.id.gatoB);
+        gatoC = findViewById(R.id.gatoC);
+        gatoD = findViewById(R.id.gatoD);
+        sharedPreferences = getSharedPreferences("com.example.lockmeow", MODE_PRIVATE);
 
+        // Restaurar el estado de visibilidad desde SharedPreferences
+        restoreGatoVisibility();
 
+        // Observa los cambios en el ViewModel
+        sharedViewModel.getButtonClicked().observe(this, buttonId -> {
+            hideAllGatos();
+            switch (buttonId) {
+                case 1:
+                    gatoA.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoAVisible", true).apply();
+                    break;
+                case 2:
+                    gatoB.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoBVisible", true).apply();
+                    break;
+                case 3:
+                    gatoC.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoCVisible", true).apply();
+                    break;
+                case 4:
+                    gatoD.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoDVisible", true).apply();
+                    break;
+            }
+        });
+    }
 
+    private void restoreGatoVisibility() {
+        if (sharedPreferences.getBoolean("gatoAVisible", false)) {
+            gatoA.setVisibility(View.VISIBLE);
+        }
+        if (sharedPreferences.getBoolean("gatoBVisible", false)) {
+            gatoB.setVisibility(View.VISIBLE);
+        }
+        if (sharedPreferences.getBoolean("gatoCVisible", false)) {
+            gatoC.setVisibility(View.VISIBLE);
+        }
+        if (sharedPreferences.getBoolean("gatoDVisible", false)) {
+            gatoD.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideAllGatos() {
+        gatoA.setVisibility(View.INVISIBLE);
+        gatoB.setVisibility(View.INVISIBLE);
+        gatoC.setVisibility(View.INVISIBLE);
+        gatoD.setVisibility(View.INVISIBLE);
+
+        // Actualizar SharedPreferences
+        sharedPreferences.edit()
+                .putBoolean("gatoAVisible", false)
+                .putBoolean("gatoBVisible", false)
+                .putBoolean("gatoCVisible", false)
+                .putBoolean("gatoDVisible", false)
+                .apply();
     }
     private void dissmisSplashScreen() {
         // Jeyms: Retrasar la actualizacion del estado isReady
