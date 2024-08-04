@@ -22,6 +22,7 @@ public class appAdapter extends RecyclerView.Adapter<appAdapter.adapter_design_j
 
     List<appModel> appModels = new ArrayList<>();
     Context con;
+    List<String> appsBloqueadas = new ArrayList<>();
 
     public appAdapter(List<appModel> appModels, Context con){
         this.appModels = appModels;
@@ -50,19 +51,26 @@ public class appAdapter extends RecyclerView.Adapter<appAdapter.adapter_design_j
 
         else{
             holder.appStatus.setImageResource(R.drawable.lock_icon);
+            appsBloqueadas.add(app.getnamePackage());
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (app.getappStatus()==0) {
+
                     app.setStatus(1);
                     holder.appStatus.setImageResource(R.drawable.lock_icon);
                     Toast.makeText(con,app.getappName() + " se bloqueó",Toast.LENGTH_SHORT).show();
+                    appsBloqueadas.add(app.getnamePackage());
+                    SharedPreferencies.getInstance(con).putListString(appsBloqueadas);
                 }
                 else {
+
                     app.setStatus(0);
                     holder.appStatus.setImageResource(R.drawable.unlock_icon);
                     Toast.makeText(con,app.getappName() + " se desbloqueó",Toast.LENGTH_SHORT).show();
+                    appsBloqueadas.remove(app.getnamePackage());
+                    SharedPreferencies.getInstance(con).putListString(appsBloqueadas);
                 }
             }
         });

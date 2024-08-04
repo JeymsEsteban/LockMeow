@@ -36,6 +36,7 @@ public class alarmActivity extends AppCompatActivity {
     appAdapter adapter;
     Dialog loadingDialog;
     Button permisosBtn;
+    final Context con = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class alarmActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         recyclerView = findViewById(R.id.recycleView);
         adapter = new appAdapter(appModelList, this);
@@ -100,17 +102,30 @@ public class alarmActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void getAppsInstaladas() {
+
+        List<String> list = SharedPreferencies.getInstance(con).getListString();
         List<PackageInfo> packageInfos = getPackageManager().getInstalledPackages(0);
 
         appModelList.clear();
 
-        for (PackageInfo packageInfo : packageInfos) {
-            String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-            Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
-            String packName = packageInfo.packageName;
 
-            appModelList.add(new appModel(name, icon, 0, packName));
+        for (int i = 0; i < packageInfos.size();i++){
+            String name = packageInfos.get(i).applicationInfo.loadLabel(getPackageManager()).toString();
+            Drawable icon = packageInfos.get(i).applicationInfo.loadIcon(getPackageManager());
+            String packName = packageInfos.get(i).packageName;
+
+            if(!list.isEmpty()) {
+                if (list.contains(packName)) {
+                    appModelList.add(new appModel(name, icon, 1, packName));
+                } else {
+                    appModelList.add(new appModel(name, icon, 0, packName));
+                }
+            }
+            else {
+                appModelList.add(new appModel(name, icon, 0, packName));
+            }
         }
+
     }
 
     @SuppressLint("StaticFieldLeak")
