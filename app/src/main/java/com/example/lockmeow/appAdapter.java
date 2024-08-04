@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,20 @@ public class appAdapter extends RecyclerView.Adapter<appAdapter.adapter_design_j
             holder.appStatus.setImageResource(R.drawable.lock_icon);
         }
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if (app.getappStatus()==0) {
+                    app.setStatus(1);
+                    holder.appStatus.setImageResource(R.drawable.lock_icon);
+                    Toast.makeText(con,app.getappName() + " se bloqueó",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    app.setStatus(0);
+                    holder.appStatus.setImageResource(R.drawable.unlock_icon);
+                    Toast.makeText(con,app.getappName() + " se desbloqueó",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

@@ -1,16 +1,24 @@
 package com.example.lockmeow;
 
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -27,6 +35,7 @@ public class alarmActivity extends AppCompatActivity {
     List<appModel> appModelList = new ArrayList<>();
     appAdapter adapter;
     Dialog loadingDialog;
+    Button permisosBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,29 @@ public class alarmActivity extends AppCompatActivity {
         TextView message = loadingDialog.findViewById(R.id.dialogMessage);
         title.setText("Buscando Apps");
         message.setText("Cargando");
+
+        if (AccesoPermitido()){
+
+        } else {
+            Toast.makeText(alarmActivity.this, "Activa los permisos :)",Toast.LENGTH_LONG).show();
+        }
+
+        permisosBtn = (Button) findViewById(R.id.Permission);
+
+        permisosBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
+
+        });
+
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -94,6 +125,27 @@ public class alarmActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             adapter.notifyDataSetChanged();
             loadingDialog.dismiss();
+        }
+    }
+    private boolean AccesoPermitido(){
+        try{
+            PackageManager packageManager = getPackageManager();
+            ApplicationInfo applicationInfo =packageManager.getApplicationInfo(getPackageName(),0);
+            AppOpsManager appOpsManager = null;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT){
+                appOpsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+            }
+
+            int mode = 0;
+
+            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT){
+                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+            }
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch(PackageManager.NameNotFoundException e){
+            return false;
         }
     }
 }
