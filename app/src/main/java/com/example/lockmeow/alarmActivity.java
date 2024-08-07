@@ -10,7 +10,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -106,7 +105,7 @@ public class alarmActivity extends AppCompatActivity {
         List<String> list = SharedPreferencies.getInstance(con).getListString();
         List<PackageInfo> packageInfos = getPackageManager().getInstalledPackages(0);
 
-        appModelList.clear();
+
 
 
         for (int i = 0; i < packageInfos.size();i++){
@@ -145,7 +144,7 @@ public class alarmActivity extends AppCompatActivity {
     private boolean AccesoPermitido(){
         try{
             PackageManager packageManager = getPackageManager();
-            ApplicationInfo applicationInfo =packageManager.getApplicationInfo(getPackageName(),0);
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(),0);
             AppOpsManager appOpsManager = null;
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT){
@@ -162,5 +161,6 @@ public class alarmActivity extends AppCompatActivity {
         } catch(PackageManager.NameNotFoundException e){
             return false;
         }
+
     }
 }

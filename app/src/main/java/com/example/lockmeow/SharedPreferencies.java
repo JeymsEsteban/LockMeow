@@ -8,9 +8,7 @@ import java.util.List;
 public class SharedPreferencies {
 
     private static final String SHARED_APP_PREFERENCE_NAME = "SharedRef";
-    Context ctx;
     private SharedPreferences pref;
-    private SharedPreferences.Editor shareEditor;
 
     public SharedPreferencies (Context context) {
         this.pref = context.getSharedPreferences(SHARED_APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -35,6 +33,7 @@ public class SharedPreferencies {
         return pref.getInt (key,0);
     }
     public void putListString (List<String> list){
+        pref.edit().clear().apply();
         for(int i  = 0; i < list.size(); i++){
             putString("app_"+i, list.get(i));
         }
