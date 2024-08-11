@@ -1,5 +1,6 @@
 package com.example.lockmeow;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
@@ -47,5 +48,18 @@ public class SharedPreferencies {
             temp.add(getString("app_"+i));
         }
         return temp;
+    }
+
+    public void agregarAppBloqueada(String packageName, Context context) {
+        List<String> appsBloqueadas = getListString();
+        if (!appsBloqueadas.contains(packageName)) {
+            appsBloqueadas.add(packageName);
+            putListString(appsBloqueadas);
+
+            // Iniciar el FloatingService para mostrar el overlay
+            Intent intent = new Intent(context, FloatingService.class);
+            intent.putExtra("packageName", packageName);
+            context.startService(intent);
+        }
     }
 }

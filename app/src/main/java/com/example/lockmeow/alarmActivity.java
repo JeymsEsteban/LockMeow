@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -64,16 +65,9 @@ public class alarmActivity extends AppCompatActivity {
         title.setText("Buscando Apps");
         message.setText("Cargando");
 
-        if (AccesoPermitido()){
-
-        } else {
-            Toast.makeText(alarmActivity.this, "Activa los permisos :)",Toast.LENGTH_LONG).show();
-        }
 
         permisosBtn = (Button) findViewById(R.id.Permission);
-
         permisosBtn.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
@@ -81,15 +75,32 @@ public class alarmActivity extends AppCompatActivity {
             }
 
         });
+        if (AccesoPermitido()){
+
+        } else {
+            Toast.makeText(alarmActivity.this, "Activa los permisos :)",Toast.LENGTH_LONG).show();
+        }
+        if (!Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, 1234);
+        }
 
     }
-
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (AccesoPermitido()) {
+            SharedPreferencies.getInstance(this).agregarAppBloqueada("com.ejemplo.appbloqueada", this);
+
+            Intent intent = new Intent(this, FloatingService.class);
+            intent.putExtra("packageName", "com.ejemplo.appbloqueada");
+            startService(intent);
+        }
+        else{
+
+        }
         loadingDialog.show();
         new LoadAppsTask().execute();
     }
@@ -104,9 +115,6 @@ public class alarmActivity extends AppCompatActivity {
 
         List<String> list = SharedPreferencies.getInstance(con).getListString();
         List<PackageInfo> packageInfos = getPackageManager().getInstalledPackages(0);
-
-
-
 
         for (int i = 0; i < packageInfos.size();i++){
             String name = packageInfos.get(i).applicationInfo.loadLabel(getPackageManager()).toString();
@@ -141,6 +149,7 @@ public class alarmActivity extends AppCompatActivity {
             loadingDialog.dismiss();
         }
     }
+
     private boolean AccesoPermitido(){
         try{
             PackageManager packageManager = getPackageManager();
