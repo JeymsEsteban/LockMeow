@@ -1,23 +1,15 @@
 package com.example.lockmeow;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import androidx.core.app.NotificationCompat;
 
 import java.util.List;
 
@@ -76,7 +68,7 @@ public class FloatingService extends Service {
         super.onDestroy();
         if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
     }
-
+    //la clase abstracta service requiere que este metodo se defina, pero realmente no tiene ninguna utilidad
     @Override
     public IBinder onBind(Intent intent) {
         return null;

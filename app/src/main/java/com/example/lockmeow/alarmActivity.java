@@ -91,16 +91,17 @@ public class alarmActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (AccesoPermitido()) {
-            SharedPreferencies.getInstance(this).agregarAppBloqueada("com.ejemplo.appbloqueada", this);
+
+        //la logica del bloqueo aqui es donde tiene el error
+        if (AccesoPermitido() && Settings.canDrawOverlays(this)) {
+            String packageName = getPackageName();
+            SharedPreferencies.getInstance(this).agregarAppBloqueada(packageName, this);
 
             Intent intent = new Intent(this, FloatingService.class);
-            intent.putExtra("packageName", "com.ejemplo.appbloqueada");
+            intent.putExtra("packageName", packageName);
             startService(intent);
         }
-        else{
 
-        }
         loadingDialog.show();
         new LoadAppsTask().execute();
     }
