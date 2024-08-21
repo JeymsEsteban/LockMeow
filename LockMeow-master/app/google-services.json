@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "620932655357",
+    "project_id": "lockmeow-4d6af",
+    "storage_bucket": "lockmeow-4d6af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620932655357:android:31b605a41af36c92bf7694",
+        "android_client_info": {
+          "package_name": "com.example.lockmeow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaMMofeivITqcZ6BuVK6ab-J3AOy25Q98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
