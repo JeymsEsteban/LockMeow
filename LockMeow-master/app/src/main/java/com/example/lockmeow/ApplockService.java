@@ -134,9 +134,9 @@ public class ApplockService extends Service {
                 @Override
                 public void run() {
                     checkPackageChanged();
-                    handler.postDelayed(this, 1000); // Verificar cada segundo
+                    handler.postDelayed(this, 500); // Verificar medio segundo
                 }
-            }, 1000);
+            }, 10);
             return START_STICKY;
         }
         return START_NOT_STICKY;
