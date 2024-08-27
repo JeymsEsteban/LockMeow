@@ -8,30 +8,30 @@ public class appModel {
     int appStatus; // 0 -> app funciona, 1 -> app no funciona
     String namePackage;
 
-    public appModel(String appName, Drawable appIcon, int appStatus, String namePackage ) {
+    public appModel(String appName, Drawable appIcon, int appStatus, String namePackage) {
         this.appName = appName;
         this.appIcon = appIcon;
         this.appStatus = appStatus;
         this.namePackage = namePackage;
     }
 
-    public String getappName () {
+    public String getappName() {
         return appName;
     }
 
-    public Drawable getappIcon () {
+    public Drawable getappIcon() {
         return appIcon;
     }
 
-    public int getappStatus () {
+    public int getappStatus() {
         return appStatus;
     }
 
-    public String getnamePackage () {
+    public String getnamePackage() {
         return namePackage;
     }
 
-    public void setStatus(int appStatus){
+    public void setStatus(int appStatus) {
         this.appStatus = appStatus;
     }
 }
