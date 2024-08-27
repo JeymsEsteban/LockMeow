@@ -1,5 +1,6 @@
 package com.example.lockmeow;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.btn_login);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.registerNow);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // No hacer nada para deshabilitar el botón "Atrás"
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 if (TextUtils.isEmpty(password)){
-                    Toast.makeText(LoginActivity.this, "Ingrese la password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Ingrese la contraseña", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -88,4 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

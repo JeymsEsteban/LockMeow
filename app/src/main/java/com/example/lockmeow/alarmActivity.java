@@ -1,16 +1,23 @@
 package com.example.lockmeow;
 
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -27,6 +34,8 @@ public class alarmActivity extends AppCompatActivity {
     List<appModel> appModelList = new ArrayList<>();
     appAdapter adapter;
     Dialog loadingDialog;
+    Button permisosBtn;
+    final Context con = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +47,7 @@ public class alarmActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         recyclerView = findViewById(R.id.recycleView);
         adapter = new appAdapter(appModelList, this);
@@ -53,7 +63,29 @@ public class alarmActivity extends AppCompatActivity {
         TextView message = loadingDialog.findViewById(R.id.dialogMessage);
         title.setText("Buscando Apps");
         message.setText("Cargando");
+
+        if (AccesoPermitido()){
+
+        } else {
+            Toast.makeText(alarmActivity.this, "Activa los permisos :)",Toast.LENGTH_LONG).show();
+        }
+
+        permisosBtn = (Button) findViewById(R.id.Permission);
+
+        permisosBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
+
+        });
+
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -69,17 +101,30 @@ public class alarmActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void getAppsInstaladas() {
+
+        List<String> list = SharedPreferencies.getInstance(con).getListString();
         List<PackageInfo> packageInfos = getPackageManager().getInstalledPackages(0);
 
-        appModelList.clear();
 
-        for (PackageInfo packageInfo : packageInfos) {
-            String name = packageInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-            Drawable icon = packageInfo.applicationInfo.loadIcon(getPackageManager());
-            String packName = packageInfo.packageName;
 
-            appModelList.add(new appModel(name, icon, 0, packName));
+
+        for (int i = 0; i < packageInfos.size();i++){
+            String name = packageInfos.get(i).applicationInfo.loadLabel(getPackageManager()).toString();
+            Drawable icon = packageInfos.get(i).applicationInfo.loadIcon(getPackageManager());
+            String packName = packageInfos.get(i).packageName;
+
+            if(!list.isEmpty()) {
+                if (list.contains(packName)) {
+                    appModelList.add(new appModel(name, icon, 1, packName));
+                } else {
+                    appModelList.add(new appModel(name, icon, 0, packName));
+                }
+            }
+            else {
+                appModelList.add(new appModel(name, icon, 0, packName));
+            }
         }
+
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -95,5 +140,27 @@ public class alarmActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             loadingDialog.dismiss();
         }
+    }
+    private boolean AccesoPermitido(){
+        try{
+            PackageManager packageManager = getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(),0);
+            AppOpsManager appOpsManager = null;
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT){
+                appOpsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+            }
+
+            int mode = 0;
+
+            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT){
+                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+            }
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch(PackageManager.NameNotFoundException e){
+            return false;
+        }
+
     }
 }

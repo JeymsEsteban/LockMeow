@@ -31,11 +31,15 @@ public class ConfiFragment extends Fragment {
         ImageButton button2 = view.findViewById(R.id.imageButton2);
         ImageButton button3 = view.findViewById(R.id.imageButton3);
         ImageButton button4 = view.findViewById(R.id.imageButton4);
+        ImageButton button5 = view.findViewById(R.id.imageButton5);
+        ImageButton button6 = view.findViewById(R.id.imageButton6);
 
         button1.setOnClickListener(v -> sharedViewModel.setButtonClicked(1));
         button2.setOnClickListener(v -> sharedViewModel.setButtonClicked(2));
         button3.setOnClickListener(v -> sharedViewModel.setButtonClicked(3));
         button4.setOnClickListener(v -> sharedViewModel.setButtonClicked(4));
+        button5.setOnClickListener(v -> sharedViewModel.setButtonClicked(5));
+        button6.setOnClickListener(v -> sharedViewModel.setButtonClicked(6));
 
         return view;
     }

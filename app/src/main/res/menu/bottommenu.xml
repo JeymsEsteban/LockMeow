@@ -7,7 +7,7 @@
         android:title=""/>
     <item
         android:id="@+id/SettingsBtn"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/baseline_pets_24"
         android:title="" />
 
     <item

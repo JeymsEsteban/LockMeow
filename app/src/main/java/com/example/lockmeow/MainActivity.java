@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView gatoB;
     ImageView gatoC;
     ImageView gatoD;
+    ImageView gatoE;
+    ImageView gatoF;
 
     private SharedViewModel sharedViewModel;
     private SharedPreferences sharedPreferences;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -98,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 if (id == R.id.SettingsBtn){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main, confiFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, confiFragment).commit();
+                    overridePendingTransition(0, 0);
+                    return true;
                 }
                 if (id == R.id.alarmsButtonBtn){
                     startActivity(new Intent(getApplicationContext(), alarmActivity.class));
@@ -116,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         gatoB = findViewById(R.id.gatoB);
         gatoC = findViewById(R.id.gatoC);
         gatoD = findViewById(R.id.gatoD);
+        gatoE = findViewById(R.id.gatoE);
+        gatoF = findViewById(R.id.gatoF);
         sharedPreferences = getSharedPreferences("com.example.lockmeow", MODE_PRIVATE);
 
         // Restaurar el estado de visibilidad desde SharedPreferences
@@ -141,6 +148,15 @@ public class MainActivity extends AppCompatActivity {
                     gatoD.setVisibility(View.VISIBLE);
                     sharedPreferences.edit().putBoolean("gatoDVisible", true).apply();
                     break;
+                case 5:
+                    gatoE.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoEVisible", true).apply();
+                    break;
+                case 6:
+                    gatoF.setVisibility(View.VISIBLE);
+                    sharedPreferences.edit().putBoolean("gatoFVisible", true).apply();
+                    break;
+
             }
         });
     }
@@ -158,6 +174,13 @@ public class MainActivity extends AppCompatActivity {
         if (sharedPreferences.getBoolean("gatoDVisible", false)) {
             gatoD.setVisibility(View.VISIBLE);
         }
+        if (sharedPreferences.getBoolean("gatoEVisible", false)) {
+            gatoE.setVisibility(View.VISIBLE);
+        }
+        if (sharedPreferences.getBoolean("gatoFVisible", false)) {
+            gatoF.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void hideAllGatos() {
@@ -165,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
         gatoB.setVisibility(View.INVISIBLE);
         gatoC.setVisibility(View.INVISIBLE);
         gatoD.setVisibility(View.INVISIBLE);
+        gatoE.setVisibility(View.INVISIBLE);
+        gatoF.setVisibility(View.INVISIBLE);
 
         // Actualizar SharedPreferences
         sharedPreferences.edit()
@@ -172,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("gatoBVisible", false)
                 .putBoolean("gatoCVisible", false)
                 .putBoolean("gatoDVisible", false)
+                .putBoolean("gatoEVisible", false)
+                .putBoolean("gatoFVisible", false)
                 .apply();
     }
     private void dissmisSplashScreen() {

@@ -30,4 +30,8 @@ public class appModel {
     public String getnamePackage () {
         return namePackage;
     }
+
+    public void setStatus(int appStatus){
+        this.appStatus = appStatus;
+    }
 }
