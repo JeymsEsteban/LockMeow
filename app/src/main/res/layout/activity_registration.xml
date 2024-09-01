@@ -17,7 +17,8 @@
         android:layout_margin="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#2F0081"/>
+        android:textColor="#2F0081"
+        android:fontFamily="@font/pixel_georgia_bold"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,7 +26,8 @@
             android:id="@+id/email"
             android:hint="@string/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixel_georgia_bold"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -34,19 +36,22 @@
             android:id="@+id/pasword"
             android:hint="@string/pasword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixel_georgia_bold"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:text="@string/register_btm"
         android:layout_height="wrap_content"
-        android:textColor="#210055"/>
+        android:textColor="#210055"
+        android:fontFamily="@font/pixel_georgia_bold"/>
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
     <TextView
         android:textStyle="normal"
         android:textSize="18sp"
@@ -54,5 +59,6 @@
         android:id="@+id/loginNow"
         android:text="@string/click_to_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixel_georgia_bold"/>
 </LinearLayout>

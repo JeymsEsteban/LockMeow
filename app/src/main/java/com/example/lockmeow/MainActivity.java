@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,21 +29,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
+    private DatabaseReference database;
+    String uid, gato;
     Boolean isReady = false;
     ConfiFragment confiFragment = new ConfiFragment();
-    ImageView gatoA;
-    ImageView gatoB;
-    ImageView gatoC;
-    ImageView gatoD;
-    ImageView gatoE;
-    ImageView gatoF;
+    ImageView gatoImageView;
 
-    private SharedViewModel sharedViewModel;
-    private SharedPreferences sharedPreferences;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -68,10 +67,60 @@ public class MainActivity extends AppCompatActivity {
         //Login var
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        gatoImageView = findViewById(R.id.gatoImageView);
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
+        }else {
+            database = FirebaseDatabase.getInstance().getReference();
+            //si ya existe el usuario lo que haremos es mirar si ya ese usuario selecciono su gato, si no, no se mostrara nada en pantalla, si sí, pondra que gato se seleccionó
+            uid = user.getUid();
+            DatabaseReference userRef = database.child("users").child(uid).child("Gato");
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        //el nodo existe
+                        gatoImageView.setVisibility(View.VISIBLE);
+                        gato = dataSnapshot.getValue().toString();
+                        switch (gato){
+                            case "1":
+                                gatoImageView.setImageResource(R.mipmap.gato_negro);
+                                return;
+                            case "2":
+                                gatoImageView.setImageResource(R.mipmap.gato_gris);
+                                return;
+                            case "3":
+                                gatoImageView.setImageResource(R.mipmap.gato_mono);
+                                return;
+                            case "4":
+                                gatoImageView.setImageResource(R.mipmap.gato_europeo);
+                                return;
+                            case "5":
+                                gatoImageView.setImageResource(R.mipmap.gato_siames);
+                                return;
+                            case "6":
+                                gatoImageView.setImageResource(R.mipmap.gato_bn);
+                                return;
+
+                        }
+
+
+                    } else {
+                        Toast.makeText(MainActivity.this, "No ha seleccionado un gato", Toast.LENGTH_SHORT).show();
+                        gatoImageView.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(MainActivity.this, "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            });
         }
         //metodo para ajustar a la pantalla la actividad principal
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -115,101 +164,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        // Configurar el ViewModel
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        gatoA = findViewById(R.id.gatoA);
-        gatoB = findViewById(R.id.gatoB);
-        gatoC = findViewById(R.id.gatoC);
-        gatoD = findViewById(R.id.gatoD);
-        gatoE = findViewById(R.id.gatoE);
-        gatoF = findViewById(R.id.gatoF);
-        sharedPreferences = getSharedPreferences("com.example.lockmeow", MODE_PRIVATE);
 
-        // Restaurar el estado de visibilidad desde SharedPreferences
-        restoreGatoVisibility();
 
-        // Observa los cambios en el ViewModel
-        sharedViewModel.getButtonClicked().observe(this, buttonId -> {
-            hideAllGatos();
-            switch (buttonId) {
-                case 1:
-                    gatoA.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoAVisible", true).apply();
-                    break;
-                case 2:
-                    gatoB.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoBVisible", true).apply();
-                    break;
-                case 3:
-                    gatoC.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoCVisible", true).apply();
-                    break;
-                case 4:
-                    gatoD.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoDVisible", true).apply();
-                    break;
-                case 5:
-                    gatoE.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoEVisible", true).apply();
-                    break;
-                case 6:
-                    gatoF.setVisibility(View.VISIBLE);
-                    sharedPreferences.edit().putBoolean("gatoFVisible", true).apply();
-                    break;
-
-            }
-        });
-    }
-
-    private void restoreGatoVisibility() {
-        if (sharedPreferences.getBoolean("gatoAVisible", false)) {
-            gatoA.setVisibility(View.VISIBLE);
-        }
-        if (sharedPreferences.getBoolean("gatoBVisible", false)) {
-            gatoB.setVisibility(View.VISIBLE);
-        }
-        if (sharedPreferences.getBoolean("gatoCVisible", false)) {
-            gatoC.setVisibility(View.VISIBLE);
-        }
-        if (sharedPreferences.getBoolean("gatoDVisible", false)) {
-            gatoD.setVisibility(View.VISIBLE);
-        }
-        if (sharedPreferences.getBoolean("gatoEVisible", false)) {
-            gatoE.setVisibility(View.VISIBLE);
-        }
-        if (sharedPreferences.getBoolean("gatoFVisible", false)) {
-            gatoF.setVisibility(View.VISIBLE);
-        }
 
     }
 
-    private void hideAllGatos() {
-        gatoA.setVisibility(View.INVISIBLE);
-        gatoB.setVisibility(View.INVISIBLE);
-        gatoC.setVisibility(View.INVISIBLE);
-        gatoD.setVisibility(View.INVISIBLE);
-        gatoE.setVisibility(View.INVISIBLE);
-        gatoF.setVisibility(View.INVISIBLE);
 
-        // Actualizar SharedPreferences
-        sharedPreferences.edit()
-                .putBoolean("gatoAVisible", false)
-                .putBoolean("gatoBVisible", false)
-                .putBoolean("gatoCVisible", false)
-                .putBoolean("gatoDVisible", false)
-                .putBoolean("gatoEVisible", false)
-                .putBoolean("gatoFVisible", false)
-                .apply();
-    }
     private void dissmisSplashScreen() {
         // Jeyms: Retrasar la actualizacion del estado isReady
         new Handler().postDelayed(() -> {
             // Jeyms: Establecer isReady en true despues de 1000 milisegundos (1 segundo)
             isReady = true;
         }, 1000);
-
-    }
-    public void confiBoton(View view) {
 
     }
 }
