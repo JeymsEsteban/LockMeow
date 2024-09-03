@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#14022C">
+    <item
+        android:id="@+id/btn_home"
+        android:icon="@drawable/baseline_home_filled_24"
+        android:title=""/>
+    <item
+        android:id="@+id/SettingsBtn"
+        android:icon="@drawable/baseline_pets_24"
+        android:title="" />
+
+    <item
+        android:id="@+id/alarmsButtonBtn"
+        android:icon="@drawable/baseline_block_24"
+        android:title="" />
+    <item
+        android:id="@+id/logoutbtn"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="" />
+</menu>
