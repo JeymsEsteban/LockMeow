@@ -3,12 +3,14 @@ package com.example.lockmeow;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     Boolean isReady = false;
     ConfiFragment confiFragment = new ConfiFragment();
     ImageView gatoImageView;
+    AnimationDrawable gatoAnimation;
+    ImageButton Statsview;
 
 
     @SuppressLint("MissingInflatedId")
@@ -86,32 +90,38 @@ public class MainActivity extends AppCompatActivity {
                         gato = dataSnapshot.getValue().toString();
                         switch (gato){
                             case "1":
-                                gatoImageView.setImageResource(R.mipmap.gato_negro);
-                                return;
+                                gatoImageView.setImageResource(R.drawable.animaciongatonegro);
+                                break;
                             case "2":
                                 gatoImageView.setImageResource(R.mipmap.gato_gris);
-                                return;
+                                break;
                             case "3":
                                 gatoImageView.setImageResource(R.mipmap.gato_mono);
-                                return;
+                                break;
                             case "4":
                                 gatoImageView.setImageResource(R.mipmap.gato_europeo);
-                                return;
+                                break;
                             case "5":
                                 gatoImageView.setImageResource(R.mipmap.gato_siames);
-                                return;
+                                break;
                             case "6":
                                 gatoImageView.setImageResource(R.mipmap.gato_bn);
-                                return;
+                                break;
 
                         }
+                        gatoAnimation = (AnimationDrawable) gatoImageView.getDrawable();
+                        gatoAnimation.start();
+
+
 
 
                     } else {
                         Toast.makeText(MainActivity.this, "No ha seleccionado un gato", Toast.LENGTH_SHORT).show();
                         gatoImageView.setVisibility(View.INVISIBLE);
                     }
+
                 }
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -122,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
             });
         }
+
+
         //metodo para ajustar a la pantalla la actividad principal
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -164,7 +176,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        Statsview = findViewById(R.id.stats);
+        Statsview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Stats.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
