@@ -93,19 +93,19 @@ public class MainActivity extends AppCompatActivity {
                                 gatoImageView.setImageResource(R.drawable.animaciongatonegro);
                                 break;
                             case "2":
-                                gatoImageView.setImageResource(R.mipmap.gato_gris);
+                                gatoImageView.setImageResource(R.drawable.animaciongatogris);
                                 break;
                             case "3":
-                                gatoImageView.setImageResource(R.mipmap.gato_mono);
+                                gatoImageView.setImageResource(R.drawable.animaciongatomono);
                                 break;
                             case "4":
-                                gatoImageView.setImageResource(R.mipmap.gato_europeo);
+                                gatoImageView.setImageResource(R.drawable.animaciongatoeuropeo);
                                 break;
                             case "5":
-                                gatoImageView.setImageResource(R.mipmap.gato_siames);
+                                gatoImageView.setImageResource(R.drawable.animaciongatosiames);
                                 break;
                             case "6":
-                                gatoImageView.setImageResource(R.mipmap.gato_bn);
+                                gatoImageView.setImageResource(R.drawable.animaciongatobn);
                                 break;
 
                         }

@@ -29,8 +29,9 @@ import java.util.Locale;
 
 public class Stats extends AppCompatActivity {
     private UsageStatsManager usageStatsManager;
-    private TextView textViewTotalUsage, ronConCola;
+    private TextView textViewTotalUsage, ronConCola, StatsTime;
     private BarChart barChart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,19 @@ public class Stats extends AppCompatActivity {
             barChart.getLegend().setEnabled(false);
             barChart.invalidate();
             textViewTotalUsage.setText("Tiempo total de uso: " + String.format(Locale.getDefault(), "%.1f", totalTime) + " horas");
+            settextgato(totalTime);
         }
 
     }
+
+    private void settextgato(double Totaltime) {
+        StatsTime = findViewById(R.id.StatsComent);
+        if (Totaltime > 7) {
+            StatsTime.setText("Has usado tu teléfono por más de 7 horas, no tienes remedio intenta bloquear algunas aplicaciones");
+        } else if (Totaltime > 5) {
+            StatsTime.setText("Has usado tu teléfono por más de cinco horas, eso me enoja!");
+        }
+    }
+
+
 }
