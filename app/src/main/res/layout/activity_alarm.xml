@@ -5,39 +5,43 @@
     android:id="@+id/alarm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#332068"
+    android:background="@drawable/fondo_degradado"
     tools:context=".alarmActivity">
 
     <ImageView
-        android:id="@+id/volver"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:onClick="volverBoton"
+        android:id="@+id/permisosMenu"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.898"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back"/>
+        app:layout_constraintVertical_bias="0.195"
+        app:srcCompat="@drawable/gato_llave" />
 
     <view
         android:id="@+id/recycleView"
         class="androidx.recyclerview.widget.RecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="557dp"
+        android:layout_width="397dp"
+        android:layout_height="471dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.666" />
 
-    <Button
-        android:id="@+id/Permission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Permisos"
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="265dp"
+        android:layout_height="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.076"
+        app:srcCompat="@drawable/que_deseas_bloq" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

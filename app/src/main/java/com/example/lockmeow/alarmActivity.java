@@ -13,22 +13,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 public class alarmActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class alarmActivity extends AppCompatActivity {
     private appAdapter adapter;
     private Dialog loadingDialog;
     private final Context context = this;
-    private final List<String> mappedApps = List.of("com.google.android.youtube");
+    private boolean appsLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +56,35 @@ public class alarmActivity extends AppCompatActivity {
 
         setupLoadingDialog();
 
-        Button permisosBtn = findViewById(R.id.Permission);
-        permisosBtn.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)));
+        ImageView permisosMenu = findViewById(R.id.permisosMenu);
+        permisosMenu.setOnClickListener(v -> showPopupMenu(v));
 
-        if (!AccesoPermitido()) {
+
+        if (!AccesoPermitido() || !Settings.canDrawOverlays(this)) {
             Toast.makeText(alarmActivity.this, "Activa los permisos :)", Toast.LENGTH_LONG).show();
         }
 
-        if (!Settings.canDrawOverlays(this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, 1234);
-        }
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(alarmActivity.this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.permission_menu, popupMenu.getMenu());
+
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+
+            int itemId = item.getItemId();
+            if (itemId == R.id.permission_usage) {
+                startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.parse("package:" + getPackageName())));
+                return true;
+            } else if (itemId == R.id.permission_overlay) {
+                startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())));
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
     }
 
     private void setupLoadingDialog() {
@@ -85,8 +103,12 @@ public class alarmActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         ApplockService.start(this);
-        loadingDialog.show();
-        new LoadAppsTask().execute();
+        if(!appsLoaded){
+            loadingDialog.show();
+            new LoadAppsTask().execute();
+            appsLoaded = true;
+        }
+
     }
 
     private void getAppsInstaladas() {
@@ -103,35 +125,8 @@ public class alarmActivity extends AppCompatActivity {
             appModelList.add(new appModel(appName, appIcon, isBlocked ? 1 : 0, packageName));
             addedPackages.add(packageName);
         }
-
-        for (String mappedPackageName : mappedApps) {
-            if (!addedPackages.contains(mappedPackageName)) {
-                String mappedAppName = getAppNameFromPackageName(mappedPackageName);
-                Drawable mappedAppIcon = getAppIconFromPackageName(mappedPackageName);
-                appModelList.add(new appModel(mappedAppName, mappedAppIcon, 0, mappedPackageName));
-            }
-        }
     }
 
-    private String getAppNameFromPackageName(String packageName) {
-        try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, 0);
-            return getPackageManager().getApplicationLabel(appInfo).toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return packageName;
-        }
-    }
-
-    private Drawable getAppIconFromPackageName(String packageName) {
-        try {
-            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(packageName, 0);
-            return getPackageManager().getApplicationIcon(appInfo);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return getDrawable(R.drawable.cathome);
-        }
-    }
 
     @SuppressLint("StaticFieldLeak")
     private class LoadAppsTask extends AsyncTask<Void, Void, Void> {

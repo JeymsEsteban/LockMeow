@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="100dp"
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/appIcon"
@@ -19,11 +20,13 @@
 
     <TextView
         android:id="@+id/appName"
-        android:layout_width="200dp"
-        android:layout_height="14dp"
+        android:layout_width="201dp"
+        android:layout_height="18dp"
         android:text="TextView"
         android:textAlignment="textStart"
         android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/appStatus"
         app:layout_constraintStart_toEndOf="@+id/appIcon"
@@ -40,4 +43,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
