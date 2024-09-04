@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     tools:context=".LoginActivity"
+    android:background="@drawable/gatologin"
     >
     
     <TextView
@@ -18,7 +19,7 @@
         android:layout_margin="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#2F0081"
+        android:textColor="#4E00D5"
         android:fontFamily="@font/pixel_georgia_bold"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             android:hint="@string/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_georgia_bold"/>
+            android:fontFamily="@font/pixel_georgia_bold"
+            android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -38,7 +40,8 @@
             android:hint="@string/pasword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_georgia_bold"/>
+            android:fontFamily="@font/pixel_georgia_bold"
+            android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/btn_login"
@@ -60,5 +63,6 @@
         android:text="@string/click_to_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pixel_georgia_bold"/>
+        android:fontFamily="@font/pixel_georgia_bold"
+        android:textColor="@color/white"/>
 </LinearLayout>

@@ -7,7 +7,8 @@
     android:gravity="center"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".Registration">
+    tools:context=".Registration"
+    android:background="@drawable/gatologin">
 
     <TextView
         android:text="@string/register"
@@ -17,17 +18,19 @@
         android:layout_margin="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#2F0081"
+        android:textColor="#4E00D5"
         android:fontFamily="@font/pixel_georgia_bold"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:hint="@string/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_georgia_bold"/>
+            android:fontFamily="@font/pixel_georgia_bold"
+            android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -37,15 +40,16 @@
             android:hint="@string/pasword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pixel_georgia_bold"/>
+            android:fontFamily="@font/pixel_georgia_bold"
+            android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:text="@string/register_btm"
         android:layout_height="wrap_content"
-        android:textColor="#210055"
-        android:fontFamily="@font/pixel_georgia_bold"/>
+        android:fontFamily="@font/pixel_georgia_bold"
+        android:textColor="@color/white"/>
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
@@ -60,5 +64,6 @@
         android:text="@string/click_to_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pixel_georgia_bold"/>
+        android:fontFamily="@font/pixel_georgia_bold"
+        android:textColor="@color/white"/>
 </LinearLayout>
