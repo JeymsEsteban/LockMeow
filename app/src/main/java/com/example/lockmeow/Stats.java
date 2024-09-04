@@ -4,13 +4,17 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -20,8 +24,16 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +43,11 @@ public class Stats extends AppCompatActivity {
     private UsageStatsManager usageStatsManager;
     private TextView textViewTotalUsage, ronConCola, StatsTime;
     private BarChart barChart;
+    private DatabaseReference database;
+    String uid, gato;
+    ImageView Catface;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
 
     @Override
@@ -42,6 +59,7 @@ public class Stats extends AppCompatActivity {
         textViewTotalUsage = findViewById(R.id.textViewTotalUsage);
         ronConCola = findViewById(R.id.textViewMostUsedApps);
         barChart = findViewById(R.id.chart);
+
 
         // Instanciamos UsageStatsManager
         usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
@@ -63,13 +81,20 @@ public class Stats extends AppCompatActivity {
     }
 
     private void showMostUsedApps() {
+        Calendar calendar = Calendar.getInstance();
+
+        // Establecer la hora a las 00:00 del día actual
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long startTime = calendar.getTimeInMillis();
         long endTime = System.currentTimeMillis();
-        long startTime = endTime - 1000 * 60 * 60 * 24;
 
         List<UsageStats> usageStatsList = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
 
         if (usageStatsList != null && !usageStatsList.isEmpty()) {
-            // Ordenar por tiempo de uso descendente
+            // Ordenar por tiempo de uso de las mas usadas a la menos usada
             Collections.sort(usageStatsList, new Comparator<UsageStats>() {
                 @Override
                 public int compare(UsageStats o1, UsageStats o2) {
@@ -127,11 +152,109 @@ public class Stats extends AppCompatActivity {
 
     private void settextgato(double Totaltime) {
         StatsTime = findViewById(R.id.StatsComent);
-        if (Totaltime > 7) {
-            StatsTime.setText("Has usado tu teléfono por más de 7 horas, no tienes remedio intenta bloquear algunas aplicaciones");
-        } else if (Totaltime > 5) {
-            StatsTime.setText("Has usado tu teléfono por más de cinco horas, eso me enoja!");
-        }
+        Catface = findViewById(R.id.Catface);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        uid = user.getUid();
+        database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = database.child("users").child(uid).child("Gato");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    //el nodo existe
+                    Catface.setVisibility(View.VISIBLE);
+                    gato = dataSnapshot.getValue().toString();
+                    if (Totaltime > 7) {
+                        StatsTime.setText("Has usado tu teléfono por más de 7 horas, no tienes remedio intenta bloquear algunas aplicaciones");
+                        switch (gato){
+                            case "1":
+                                Catface.setImageResource(R.drawable.gatonegroenojado);
+                                break;
+                            case "2":
+                                Catface.setImageResource(R.drawable.gatogrisenojado);
+                                break;
+                            case "3":
+                                Catface.setImageResource(R.drawable.gatomonoenojado);
+                                break;
+                            case "4":
+                                Catface.setImageResource(R.drawable.gatoeuropeoenojado);
+                                break;
+                            case "5":
+                                Catface.setImageResource(R.drawable.gatosiamesenojado);
+                                break;
+                            case "6":
+                                Catface.setImageResource(R.drawable.gatobnenojado);
+                                break;
+
+                        }
+                    } else if (Totaltime > 5) {
+                        StatsTime.setText("Has usado tu teléfono por más de cinco horas, eso me entristece!");
+                        switch (gato){
+                            case "1":
+                                Catface.setImageResource(R.drawable.gatonegrotriste);
+                                break;
+                            case "2":
+                                Catface.setImageResource(R.drawable.gatogristriste);
+                                break;
+                            case "3":
+                                Catface.setImageResource(R.drawable.gatomonotriste);
+                                break;
+                            case "4":
+                                Catface.setImageResource(R.drawable.gatoeuropeotriste);
+                                break;
+                            case "5":
+                                Catface.setImageResource(R.drawable.gatosiamestriste);
+                                break;
+                            case "6":
+                                Catface.setImageResource(R.drawable.gatobntriste);
+                                break;
+
+                        }
+                    }else {
+                        StatsTime.setText("Muy bien no has usado mucho tu telefono, eso me hace feliz!");
+                        switch (gato){
+                            case "1":
+                                Catface.setImageResource(R.drawable.gatonegrosonriendo);
+                                break;
+                            case "2":
+                                Catface.setImageResource(R.drawable.gatogrissonriendo);
+                                break;
+                            case "3":
+                                Catface.setImageResource(R.drawable.gatomonosonriendo);
+                                break;
+                            case "4":
+                                Catface.setImageResource(R.drawable.gatoeuropeosonriendo);
+                                break;
+                            case "5":
+                                Catface.setImageResource(R.drawable.gatosiamessonriendo);
+                                break;
+                            case "6":
+                                Catface.setImageResource(R.drawable.gatobnsonriendo);
+                                break;
+
+                        }
+
+
+                    }
+
+                } else {
+                    Toast.makeText(Stats.this, "No ha seleccionado un gato", Toast.LENGTH_SHORT).show();
+                    Catface.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Stats.this, "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        });
+
     }
 
 

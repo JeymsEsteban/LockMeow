@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="0dp"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal">
 
-
+    <!-- Cabecera con imagen y texto -->
     <LinearLayout
         android:paddingTop="80dp"
         android:layout_width="match_parent"
@@ -21,21 +22,20 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/gato_bn"
-            />
+            app:srcCompat="@mipmap/gato_bn" />
 
         <TextView
-
             android:id="@+id/textView2"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Estas son tus 5 apps mas usadas!"
+            android:text="¡Estas son tus 5 apps más usadas!"
             android:fontFamily="@font/pixel_georgia_bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
     </LinearLayout>
 
+    <!-- TextView que estará justo encima del BarChart -->
     <TextView
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
@@ -43,42 +43,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="#000000" />
 
-        android:textColor="#000000"/>
-
+    <!-- BarChart -->
     <com.github.mikephil.charting.charts.BarChart
-
         android:id="@+id/chart"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:background="@drawable/seccion"
-        />
+        android:background="@drawable/seccion" />
 
+    <!-- TextView que estará justo encima del LinearLayout en la parte inferior -->
     <TextView
         android:id="@+id/textViewTotalUsage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom"
         android:paddingTop="16dp"
         android:text="Tiempo total de uso:"
         android:textSize="18sp"
         android:fontFamily="@font/pixel_georgia"
         android:textColor="#000000"
-        android:paddingLeft="20dp"/>
+        android:paddingLeft="20dp" />
 
+    <!-- Espacio vacío para empujar el contenido hacia arriba -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- LinearLayout en la parte inferior de la pantalla -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/seccion"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/StatsComent"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/pixel_georgia"
             android:paddingLeft="20dp"
             android:text="Tiempo total de uso:" />
+
+        <ImageView
+            android:id="@+id/Catface"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/gatonegroenojado"
+            android:visibility="invisible" />
     </LinearLayout>
 
 </LinearLayout>
