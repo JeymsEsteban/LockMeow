@@ -1,10 +1,9 @@
 package com.example.lockmeow;
 
-import android.content.Intent;
+
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.WindowManager;
 
 public class blockActivity extends AppCompatActivity {
@@ -23,14 +22,6 @@ public class blockActivity extends AppCompatActivity {
         );
         getWindow().setAttributes(params);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-        Intent intent = getIntent();
-
-        String blockedAppPackage = intent.getStringExtra("blockedAppPackage");
-
-        //TextView blockedAppTextView = findViewById(R.id.blockMessage);
-        //blockedAppTextView.setText("Aplicación Bloqueada: " + blockedAppPackage);
-
-
     }
+
 }
